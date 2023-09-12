@@ -70,8 +70,8 @@
 
 
         <section class="order-footer d-flex justify-content-between mt-5 w-75 m-auto">
-            <a href="{{ route('order.tran') }}"><button class="btn btn-success">上一步</button></a>
-            <a href="{{ route('order.thanks') }}"><button class="btn btn-success">下一步</button></a>
+            <a href="{{ route('user.order.tran') }}"><button class="btn btn-success">上一步</button></a>
+            <a href="{{ route('user.order.thanks') }}"><button class="btn btn-success">下一步</button></a>
         </section>
 
 

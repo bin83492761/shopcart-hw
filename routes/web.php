@@ -8,6 +8,7 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\BackendController;
+use App\Http\Controllers\OrderListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,8 @@ Route::post('/fetch/test', [FrontController::class, 'fetchTest']);
 Route::get('/message/index', [MessageController::class, 'index'])->name('messageIndex');
 
 // 只有登入者可以進
-Route::middleware('auth')->group(function() {
-    Route::prefix('/message')->group(function() {
+Route::middleware('auth')->group(function () {
+    Route::prefix('/message')->group(function () {
         Route::post('/replayStore/{id}', [MessageController::class, 'replayStore'])->name('replayStore');
         Route::post('/store', [MessageController::class, 'store'])->name('messageStore');
         Route::put('/update/{id}', [MessageController::class, 'update'])->name('messageUpdate');
@@ -40,12 +41,29 @@ Route::middleware('auth')->group(function() {
         // 刪除
         Route::delete('/destroy/{id}', [ReplyController::class, 'destroy'])->name('replyDestroy');
     });
-    Route::middleware(['role.weight: 2'])->prefix('/user/infomation')->group(function () {
-        Route::get('/', [FrontController::class, 'user_info'])->name('user.info');
-        Route::post('/update', [FrontController::class, 'user_info_update'])->name('user.info.update');
-    });
-
     Route::post('/products/add-carts', [FrontController::class, 'add_cart'])->name('front.addCart');
+
+    // 只有使用者可進
+    Route::middleware(['role.weight: 2'])->group(function () {
+        Route::prefix('/user')->group(function () {
+            Route::prefix('/information')->group(function () {
+                Route::get('/', [FrontController::class, 'user_info'])->name('user.info');
+                Route::post('/update', [FrontController::class, 'user_info_update'])->name('user.info.update');
+            });
+            Route::prefix('order')->group(function () {
+                Route::get('/list', [OrderListController::class, 'orderlist'])->name('user.order.list');
+
+                Route::get('/tran', [OrderListController::class, 'ordertran'])->name('user.order.tran');
+                Route::post('/tran',[OrderListController::class, 'ordertran'])->name('user.order.tran');
+
+                Route::get('/pay', [OrderListController::class, 'orderpay'])->name('user.order.pay');
+                Route::post('/pay', [OrderListController::class, 'orderpay'])->name('user.order.pay');
+
+                Route::get('/thanks', [OrderListController::class, 'orderthanks'])->name('user.order.thanks');
+                Route::post('/thanks', [OrderListController::class, 'orderthanks'])->name('user.order.thanks');
+            });
+        });
+    });
 });
 
 // 只有管理者可以進
@@ -54,13 +72,13 @@ Route::middleware(['auth', 'role.weight: 1'])->prefix('admin')->group(function (
 
     Route::prefix('/product')->group(function () {
         Route::get('/list', [ProductController::class, 'index'])->name('product.index');
-        
+
         Route::get('/create', [ProductController::class, 'create'])->name('product.create');
         Route::post('/store', [ProductController::class, 'store'])->name('product.store');
-        
+
         Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
         Route::put('/update/{id}', [ProductController::class, 'update'])->name('product.update');
-        
+
         Route::delete('/delete/{id}', [ProductController::class, 'destroy'])->name('product.delete');
     });
 
@@ -68,8 +86,8 @@ Route::middleware(['auth', 'role.weight: 1'])->prefix('admin')->group(function (
     Route::get('/playground', [FrontController::class, 'test'])->name('test.step1');
     Route::post('/playground-step1/store', [FrontController::class, 'step1_store'])->name('test.step1Store');
     Route::get('/playground-step2', [FrontController::class, 'test2'])->name('test.step2');
-
 });
 
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
