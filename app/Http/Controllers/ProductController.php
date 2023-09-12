@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
 
     // protected $FileService;
-    
+
     // public function __construct(FileService $FileService)
     // {
     //     $this->FileService = $FileService;
@@ -37,8 +37,8 @@ class ProductController extends Controller
         if ($request->filled('keyword')) {
             $products->where('name', 'like', "%{$keyword}%")->orWhere('desc', 'like', "%{$keyword}%");
         }
-        
-        
+
+
         $products = $products->paginate(5);
 
         // $products->withPath('/product/list?keyword=' . $keyword);
@@ -79,7 +79,7 @@ class ProductController extends Controller
             'img_path' => $path,
             'price' => $request->price,
             'status' => $request->status,
-            'desc' => $request->desc,
+            'descr' => $request->desc,
         ]);
 
         return redirect(route('product.index'));

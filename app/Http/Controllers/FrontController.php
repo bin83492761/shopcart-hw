@@ -12,9 +12,9 @@ class FrontController extends Controller
 {
     public function index(Request $request)
     {
-        // status 
+        // status
         $products = Product::where('status', 1)->get();
-        
+
         return view('welcome', compact('products'));
     }
 
@@ -98,7 +98,7 @@ class FrontController extends Controller
         // ], [
         //     'qty' => 456,
         // ]);
-        
+
 
         return (object)[
             'code' => $cart ? 1 : 0,
@@ -148,6 +148,6 @@ class FrontController extends Controller
 
     public function fetchTest(Request $request)
     {
-        dd($request->all());
+        
     }
 }

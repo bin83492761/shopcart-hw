@@ -1,5 +1,5 @@
-@extends('templates.fontTemplete')
-@section('style')
+@extends('templates.indexTemplate')
+@section('head')
     <style>
         .product-img {
             width: 100px;
@@ -84,86 +84,74 @@
         }
     </style>
 @endsection
-@section('main-content')
+@section('main')
     <div class="container">
-        <section class="order-header">
-            <div class="apart mb-4 mt-3">
-                <span class="text-success">Home</span>
-                <span>/</span>
-                <span class="text-success">Shop</span>
-                <span>/</span>
-                <span>Shop Checkout</span>
-            </div>
-            <div class="checkout mb-4">
-                <h2 class="mb-2 mx-0">Checkout</h2>
-                @auth()
-                    <span>請您確認訂單細節後，點擊下一步</span>
-                @endauth
-                @guest()
-                    <span>
-                        Already have an account? Click here to
-                    </span>
-                    <a href="{{ route('login') }}" class="text-success">
-                        Sign in.
-                    </a>
-                @endguest
-            </div>
-        </section>
-        <section class="order-body">
-            <div class="card">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <h5 class="mb-0">訂單資訊</h5>
-                    </li>
-                    {{-- start-要買的產品 buy-product --}}
-                    <li class="buy-product list-group-item d-flex justify-content-between align-items-center">
-                        <div class="product-img"></div>
-                        <div class="product-info">
-                            <h6>冰紛樂</h6>
-                            <p>1kg</p>
-                        </div>
-                        <div class="product-count d-flex align-items-center">
-                            <button type="button" class="btn h-100 btn-count">+</button>
-                            <input class="count-form-control" type="number" placeholder="商品數量"
+        <form action="{{ route('user.order.tran') }}" method="POST">
+            @csrf
+            <section class="order-header">
+                <div class="apart mb-4 mt-3">
+                    <span class="text-success">Home</span>
+                    <span>/</span>
+                    <span class="text-success">Shop</span>
+                    <span>/</span>
+                    <span>Shop Checkout</span>
+                </div>
+                <div class="checkout mb-4">
+                    <h2 class="mb-2 mx-0">Checkout</h2>
+                    @auth()
+                        <span>請您確認訂單細節後，點擊下一步</span>
+                    @endauth
+                    @guest()
+                        <span>
+                            Already have an account? Click here to
+                        </span>
+                        <a href="{{ route('login') }}" class="text-success">
+                            Sign in.
+                        </a>
+                    @endguest
+                </div>
+            </section>
+            <section class="order-body">
+                <div class="card">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <h5 class="mb-0">訂單資訊</h5>
+                        </li>
+                        {{-- start-要買的產品 buy-product --}}
+                        @foreach (  as )
+
+                        <li class="buy-product list-group-item d-flex justify-content-between align-items-center">
+                            <div class="product-img"></div>
+                            <div class="product-info">
+                                <h6>冰紛樂</h6>
+                                <p>1kg</p>
+                            </div>
+                            <div class="product-count d-flex align-items-center">
+                                <button type="button" class="btn h-100 btn-count">+</button>
+                                <input class="count-form-control" type="number" placeholder="商品數量"
                                 aria-label="default input example">
-                            <button type="button" class="btn btn-count">-</button>
-                        </div>
-                        <div class="product-price">
-                            <h5>$1000</h5>
-                        </div>
-                    </li>
-                    <li class="buy-product list-group-item d-flex justify-content-between align-items-center">
-                        <div class="product-img"></div>
-                        <div class="product-info">
-                            <h6>冰紛樂</h6>
-                            <p>1kg</p>
-                        </div>
-                        <div class="product-count d-flex align-items-center">
-                            <button type="button" class="btn h-100 btn-count">+</button>
-                            <input class="count-form-control" type="number" placeholder="商品數量"
-                                aria-label="default input example">
-                            <button type="button" class="btn btn-count">-</button>
-                        </div>
-                        <div class="product-price">
-                            <h5>$1000</h5>
-                        </div>
-                    </li>
-                    {{-- end-要買的產品 buy-product --}}
-                    <li class="list-group-item d-flex align-items-center justify-content-between">
-                        <h6 class="mb-0">總金額</h6>
-                        <h5 class="mb-0">$2000</h5>
-                    </li>
-                </ul>
-            </div>
-        </section>
-        <section class="order-footer"></section>
-        <section class="order-footer d-flex justify-content-end mt-5 w-75 m-auto">
-            <a href="{{ route('user.order.tran') }}"><button class="btn btn-success">下一步</button></a>
-        </section>
+                                <button type="button" class="btn btn-count">-</button>
+                            </div>
+                            <div class="product-price">
+                                <h5>$1000</h5>
+                            </div>
+                        </li>
 
+                        @endforeach
+                        {{-- end-要買的產品 buy-product --}}
+                        <li class="list-group-item d-flex align-items-center justify-content-between">
+                            <h6 class="mb-0">總金額</h6>
+                            <h5 class="mb-0">$2000</h5>
+                        </li>
 
-
-
+                    </ul>
+                </div>
+            </section>
+            <section class="order-footer"></section>
+            <section class="order-footer d-flex justify-content-end mt-5 w-75 m-auto">
+                <button class="btn btn-success" type="submit">下一步</button>
+            </section>
+        </form>
     </div>
 @endsection
 @section('js')

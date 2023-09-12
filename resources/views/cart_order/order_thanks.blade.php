@@ -1,10 +1,10 @@
-@extends('templates.fontTemplete')
-@section('style')
+@extends('templates.indexTemplate')
+@section('head')
     <style>
 
     </style>
 @endsection
-@section('main-content')
+@section('main')
 
 
 <div class="container d-flex justify-content-center">
